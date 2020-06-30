@@ -87,6 +87,112 @@ git add でインデックス作成、git commit でツリー作成が分かれ�
 
 > git hash-object memo.md
 
+25e878b283184ba9439cc402c26bbc84ec023da1
+
 > git add memo.md
 
 > tree .git
+
+C:\USERS\..\DOCUMENTS\GITHUB\GITHUB_THEORY\.GIT
+├─hooks
+├─info
+├─objects
+│ ├─25
+│ ├─info
+│ └─pack
+└─refs
+├─heads
+└─tags
+
+25 フォルダの直下に e878b283184ba9439cc402c26bbc84ec023da1 ファイルが保存されている。
+
+重要な点は、ハッシュ ID はファイルの中身が同じであれば必ず同じハッシュ ID になる為、git add しても追加で圧縮ファイルが作られるわけではないという事。
+
+### ツリーファイルについての詳細
+
+圧縮ファイルのファイル名はハッシュ ID を元に生成されたものであるため、元々のファイル情報がどこにも残っていない。
+
+> git commit -m "add memo.md"
+
+[master (root-commit) bb3bcb9] add memo.md
+1 file changed, 92 insertions(+)
+create mode 100644 memo.md
+
+ツリー情報の ID を取得する
+
+> git cat-file -p master
+
+tree 74d206268a110ae68b03699a5acc3e3a23513c0c
+
+取得したツリー情報の ID から詳細を取得する。
+
+> git cat-file -p 74d206
+
+100644 blob 25e878b283184ba9439cc402c26bbc84ec023da1 memo.md
+
+25 フォルダの直下にある e878b283184ba9439cc402c26bbc84ec023da1 ファイルは memo.md と紐づいていることが確認できた。
+
+### コミットファイルについての詳細
+
+ツリーファイルでは、圧縮ファイルと元ファイルの紐づきは確認できるが、作成者、日時、メッセージなどの情報は取得できなかった。
+
+> git cat-file -p HEAD
+
+tree 74d206268a110ae68b03699a5acc3e3a23513c0c
+author kyamasan <...@users.noreply.github.com> 1593529254 +0900
+committer kyamasan <...@@users.noreply.github.com> 1593529254 +0900
+
+add memo.md
+
+ツリー情報、作成者、日時、メッセージ、(存在する場合は)親コミットの情報を確認できる。
+
+### git init
+
+> git init
+
+.git ディレクトリ(ローカルレポジトリ)が作成される。
+git で必要な殆どの情報(圧縮ファイル、ツリーファイル、コミットファイル、インデックスファイル、設定ファイル)はここに含まれる。
+
+git add や git commit で作成されたファイルは全てここに含まれている。
+
+.git 直下の objects フォルダがレポジトリの本体
+.git 直下の config というファイルが git の設定ファイル
+
+### git clone
+
+> git clone <レポジトリ名>
+
+git clone によって、2 つのものがローカルにコピーされる。
+一つは、リモートレポジトリのファイル。
+もう一つは、レポジトリ(.git ディレクトリ)
+
+.git の情報も取得できるという点に注意。
+
+### git add
+
+> git add <ファイル名>/<ディレクトリ名>/.
+
+コミットする変更を準備する為の場所がステージ。
+
+### git commit
+
+> git commit -m ""
+
+git のエディタを立ち上げることなく、メッセージを追加できる。
+
+> git commit -v
+
+git のエディタが立ち上がって、エディタ上で変更内容が確認できる。
+
+変更(変更、新規、削除など)を記録することを git ではコミットと呼ぶ。
+
+> git status
+
+コミットやステージ前にファイルの差分を確認するコマンド
+以下の 2 つの情報を確認できる。
+
+① ワークツリーとステージのインデックス情報との差分
+(前回ステージに追加してから変更したワークツリーのファイル)
+
+② ステージのインデックス情報とコミット情報との差分
+(前回コミットしてからステージに追加されたファイル)
