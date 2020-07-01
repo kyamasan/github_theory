@@ -474,6 +474,13 @@ HEAD とは今自分が作業しているブランチを指す。
 
 > git branch -a
 
+注意
+GitHub 上でリモートブランチを削除しても、ローカルには origin の情報が残り続ける。ローカルにも適用するにはオプションが必要。
+
+> git fetch --prune
+
+https://qiita.com/yuu_ta/items/519ea47ac2c1ded032d9
+
 それぞれのブランチがどのコミットをポイントしているかを確認する。
 
 > git log --oneline --decorate
