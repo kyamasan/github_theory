@@ -339,3 +339,96 @@ HEAD は現在のブランチの最新のコミットを指す。
 ※リモートレポジトリに push したコミットはやり直してはダメ。(重要)
 
 > git commit --amend
+
+### git remote
+
+> git remote
+
+origin
+
+対応する URL を表示する
+
+> git remote -v
+
+origin https://github.com/kyamasan/github_theory (fetch)
+origin https://github.com/kyamasan/github_theory (push)
+
+### git remote add
+
+リモートレポジトリは複数登録できる。
+
+> git remote add <リモート名> <リモート URL>
+
+### git fetch
+
+リモートから情報を取得する方法は 2 通りある。fetch、pull
+
+git fetch を行うと、リモートレポジトリの内容がローカルレポジトリに保存される。(この時、ワークツリーの情報は変更されないので注意)
+ローカルレポジトリの内容をワークツリーにも反映させる場合には、git merge コマンドを用いる。
+
+C:\Users\..\Documents\GitHub\github_theory\.git\refs\remotes\origin
+
+> git fetch <リモート名>
+
+全てのブランチ情報を確認する。git fetch を行ったことで、remotes/origin/master のブランチが追加されていることを確認。
+
+> git branch -a
+
+- master
+  remotes/origin/master
+
+現在のブランチを remotes/origin/master に変更する。
+
+> git checkout remotes/origin/master
+
+remotes/origin/master の情報をワークツリーに反映させる。
+
+> git merge origin/master
+
+fatal: refusing to merge unrelated histories というエラーが出た場合は、--allow-unrelated-histories を付けて再実行する。
+リモートレポジトリにしかないコミット情報が存在する場合(GitHub から直接ファイル追加するなど)に発生するエラー。
+
+> git merge --allow-unrelated-histories origin/master
+
+### git pull
+
+リモートから情報を取得して、マージまでを一気に行うコマンド。git fetch と git merge を一度に行う。
+
+> git pull <リモート名> <ブランチ名>
+
+git pull origin master
+
+=
+git fetch origin master
+git merge origin master
+
+### fetch と pull の使い分け
+
+fetch を基本的に使うべき。
+git pull を行うと、自分が現在いるブランチのワークツリーにリモートレポジトリの情報を上書きする。
+
+master ブランチにいる時に git pull origin hoge を行うと、master ブランチの内容を上書きしてしまうので、危険。
+
+### git remote show
+
+リモートの詳細情報を表示する。
+
+> git remote show <リモート名>
+
+Fetch URL: https://github.com/kyamasan/github_theory
+Push URL: https://github.com/kyamasan/github_theory
+HEAD branch: master
+Remote branch:
+master tracked
+Local branch configured for 'git pull':
+master merges with remote master
+Local ref configured for 'git push':
+master pushes to master (up to date)
+
+### git remote rename/rm
+
+リモート名の変更、削除を行うコマンド。
+
+> git remote rename <旧リモート名> <新リモート名>
+
+> git remote rm <リモート名>
