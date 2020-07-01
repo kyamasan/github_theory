@@ -573,3 +573,7 @@ a62324(master)← コミット 3(master)
   remotes/origin/feature
   remotes/origin/master
   ※リモートブランチの参照時は、remotes/origin/...の remotes の部分は省略可能。
+
+### プルリクエスト
+
+自分の変更したコードをレポジトリに取り込んでもらうように依頼する機能(コードレビューが可能)
