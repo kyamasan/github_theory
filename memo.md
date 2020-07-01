@@ -473,3 +473,25 @@ HEAD とは今自分が作業しているブランチを指す。
 リモートレポジトリも含む全てのブランチを表示する。
 
 > git branch -a
+
+それぞれのブランチがどのコミットをポイントしているかを確認する。
+
+> git log --oneline --decorate
+
+HEAD が master を指し、master が 317c4b をポイントしている。GitHub の origin/master は ae99088 をポイントしていることが分かる。
+
+317c84b (HEAD -> master) branch
+e83840a branch
+ae99088 (origin/master) fetch/pull
+76a19b1 Create README.md
+...
+
+### git checkout
+
+ブランチを切り替える為のコマンド
+
+> git checkout <既存ブランチ名>
+
+ブランチを新規作成して切り替えまで一度に行うコマンド
+
+> git checkout -b <新ブランチ名>
